@@ -9,15 +9,13 @@ public sealed class RootScript : MonoBehaviour
     private PlayerController _playerController;
     private EnemyManager _enemyManager;
     private PlayerManager _playerManager;
-    private EventManager _eventManager;
-    
+
     private void Awake()
     {
-        _playerController = new PlayerController(_playerView);
-
-        _eventManager = new EventManager();
-        _enemyManager = new EnemyManager(_enemyViews, _playerView, _eventManager );
-        _playerManager = new PlayerManager(_playerView, _enemyViews);
+        _playerController = new PlayerController(_playerView, _enemyViews);
+        
+        _enemyManager = new EnemyManager(_enemyViews, _playerView);
+        _playerManager = new PlayerManager(_playerView);
     }
 
     private void Update()
@@ -26,5 +24,4 @@ public sealed class RootScript : MonoBehaviour
         _enemyManager.Update();
         _playerManager.Update();
     }
-    //Пропиши TriggerEnter и допиши ивенты, что бы спавнились монетки
 }

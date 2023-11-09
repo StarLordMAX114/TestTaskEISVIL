@@ -1,10 +1,10 @@
-using Mono.Cecil;
 using UnityEngine;
 
 public sealed class Reference : MonoBehaviour
 {
     private Rigidbody _bullet;
     private GameObject _coin;
+    private GameObject _Uwin;
 
     public Rigidbody Bullet
     {
@@ -31,4 +31,18 @@ public sealed class Reference : MonoBehaviour
         }
         set => _coin = value;
     }
+    
+    public GameObject U_WIN
+    {
+        get
+        {
+            if (_Uwin == null)
+            {
+                _Uwin = Resources.Load<GameObject>("U_WIN");
+            }
+            return _Uwin;
+        }
+        set => _Uwin = value;
+    }
+
 }

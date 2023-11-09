@@ -17,6 +17,9 @@ public sealed class PlayerView : MonoBehaviour
     [Tooltip("Здоровье")]
     [Range(1,10)] public int Health;
 
+    [Tooltip("Дистанция Атаки")] 
+    [Range(1, 15)] public int AttackDistance;
+
     public Rigidbody PlayerRigidbody => _playerRigidbody;
     public FixedJoystick Joystick => _joystick;
 

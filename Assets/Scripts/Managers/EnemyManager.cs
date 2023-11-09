@@ -9,15 +9,18 @@ public sealed class EnemyManager : MonoBehaviour
     
     private EnemyView _enemyView;
     private EnemyController _enemyController;
-    
+
     private PlayerView _playerView;
-    private EventManager _eventManager;
-    public EnemyManager(List<EnemyView> enemyViews, PlayerView playerView , EventManager eventManager)
+
+    private Reference _reference;
+    
+    public EnemyManager(List<EnemyView> enemyViews, PlayerView playerView)
     {
         _enemyViews = enemyViews;
         _playerView = playerView;
-        _eventManager = eventManager;
+
         
+        _reference = new Reference();
         _enemyControllers = new List<EnemyController>();
         RefreshEnemyList();
     }
@@ -30,14 +33,13 @@ public sealed class EnemyManager : MonoBehaviour
         }
         CheckEnemiesHealh();
     }
-
+    
     private void CheckEnemiesHealh()
     {
         foreach (EnemyView _enemyView in _enemyViews.ToList())
         {
             if (_enemyView.Health <= 0)
             {
-                _enemyViews.Remove(_enemyView);
                 Death(_enemyView);
             }
         }
@@ -45,8 +47,9 @@ public sealed class EnemyManager : MonoBehaviour
 
     private void Death(EnemyView enemyView)
     {
-        _eventManager.EnemyDeath();;
+        Instantiate(_reference.Coin, enemyView.transform.position, enemyView.transform.rotation);
         Destroy(enemyView.gameObject);
+        _enemyViews.Remove(enemyView);
     }
     
     private void RefreshEnemyList()

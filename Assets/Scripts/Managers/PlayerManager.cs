@@ -1,45 +1,19 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public sealed class PlayerManager
+public sealed class PlayerManager : MonoBehaviour
 {
     private PlayerView _playerView;
     private EnemyView _enemyView;
     
-    private List<EnemyView> _enemyViews;
-    private List<float> _distances; // Дистанции до каждого противника
-
-    private Reference _reference;
-    
-
-    public PlayerManager(PlayerView playerView, List<EnemyView> enemyViews)
+    public PlayerManager(PlayerView playerView)
     {
-        EventManager.onEnemyDeath += KillEnemy;
         _playerView = playerView;
-        _enemyViews = enemyViews;
-        
-        _distances = new List<float>();
     }
 
     public void Update()
     {
-        if (_playerView.PlayerRigidbody.velocity == Vector3.zero)
-        {
-            AutoGuidance();
-        }
-        else
-        {
-            RefreshDistances();
-        }
-        
         CheckPlayerHealth();
-    }
-
-    private void KillEnemy()
-    {
-        _reference = new Reference();
     }
 
     #region Получение урона и смерть
@@ -58,37 +32,5 @@ public sealed class PlayerManager
     }
     
 
-    #endregion
-
-    #region Автонаводка и атака
-
-    private void RefreshDistances()
-    {
-        _distances.Clear();
-    }
-    private void AutoGuidance()
-    {
-        RefreshDistances();
-        
-        foreach (EnemyView _enemyView in _enemyViews)
-        {
-            if (_enemyView != null)
-            {
-                float distance = Vector3.Distance(_playerView.transform.position,_enemyView.transform.position);
-                _distances.Add(distance);
-
-                if (distance == _distances.Min())
-                {
-                    Attack(_enemyView);
-                }
-            }
-        }
-    }
-
-    private void Attack(EnemyView enemyView)
-    {
-        _playerView.transform.LookAt(enemyView.transform.position);
-        _playerView.PlayerWeapon.Fire();
-    }
     #endregion
 }

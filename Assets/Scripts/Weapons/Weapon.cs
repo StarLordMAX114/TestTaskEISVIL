@@ -1,31 +1,30 @@
+using System;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+public sealed class Weapon : MonoBehaviour
 {
     [SerializeField] private Transform _bulletGenerator;
     
     private Reference _reference;
-    private PlayerView _playerView;
-    
+
     [Header("Настройки оружия")]
     
     [Tooltip("Время перезарядки")]
-    [Range(1,5)]public float CoolDown;
+    [Range(0.5F,5)]public float CoolDown;
     
     [Tooltip("Скорость снаряда")]
-    [Range(1,100)]public int BulletSpeed = 100;
+    [Range(1,50)]public int BulletSpeed;
     
     [Tooltip("Урон")]
     [Range(1,5)] public int Damage;
 
     private float _currentlyCoolDown;
-    public bool IsFire = true;
+    [NonSerialized] public bool IsFire = true;
     
     
     private void Awake()
     {
         _reference = new Reference();
-        _playerView = FindObjectOfType<PlayerView>();
         _currentlyCoolDown = CoolDown;
     }
     
